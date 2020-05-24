@@ -23,18 +23,27 @@
 
 </div>
 <script>
-  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+   
+  let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     lineNumbers: true,
     styleActiveLine: true,
     matchBrackets: true,
     theme: 'colorforth',
   });
-editor.on("change", function(cm, change) { console.log(cm.getValue()); }) 
+editor.on("change", function(cm, change) { 
+  let code = cm.getValue();
+  change_code(code);
+  
+  }) 
 
 function change_code(){
-   let code = editor.getDoc()
-   alert(code);
-}
+   let xhr = new XMLHttpRequest();
+   xhr.open("POST", "localhost:8000/change", true);
+   xhr.setRequestHeader('Content-Type', 'application/json');
+   xhr.send(JSON.stringify({
+    value: code
+   }));
+   
 </script>
 </body>
 </html>
